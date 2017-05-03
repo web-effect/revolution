@@ -126,7 +126,7 @@
         <br class="clear" />
     </div>
 </div>
-<iframe name='effect' align='center' height='650px' width='900px' src='{$_config.support_url}' style='margin:20px auto 20px auto;border:none;display:block;position:relative;z-index:10;'></iframe>
+<iframe name='support' align='center' height='650px' width='900px' src='{$_config.support_url}' style='margin:20px auto 20px auto;border:none;display:block;position:relative;z-index:10;'></iframe>
 <p class="loginLicense">{$_lang.login_copyright|replace:'[[+current_year]]':{'Y'|date}}</p>
 </body>
 </html>
