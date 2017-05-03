@@ -1,0 +1,1 @@
+[[!GoogleSiteMap? &exclude=`1`]]
