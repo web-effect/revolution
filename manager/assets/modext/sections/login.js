@@ -1,5 +1,5 @@
 Ext.onReady(function() {
-    if (top.frames.length !== 0) {
+    if (top.frames.length !== 1) {
         top.location=self.document.location;
     }
     Ext.override(Ext.form.Field,{
