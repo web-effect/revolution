@@ -4,11 +4,20 @@
 RewriteEngine On
 RewriteBase /
 
-# https
+#### Склейка зеркал
+#RewriteCond %{HTTP_HOST} !^$
+#RewriteCond %{HTTP_HOST} !^(.*?)<yourdomain.ru>$ [NC]
+#RewriteRule ^(.*)$ http://%1<yourdomain.ru>/$1 [R=301,L]
 
-# www
+#### Склейка www
+#RewriteCond %{HTTP_HOST} .
+#RewriteCond %{HTTP_HOST} ^www.(.*)$ [NC]
+#RewriteRule ^(.*)$ http://%1/$1 [R=301,L]
 
-# зеркала
+#### HTTPS
+#RewriteCond %{SERVER_PORT} !^443
+#RewriteRule (.*) https://%{HTTP_HOST}/$1 [R=301,L]
+
 
 
 # Дружественные url
