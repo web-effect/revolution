@@ -38,6 +38,16 @@ class modBrowserFileUploadProcessor extends modProcessor {
         }
 
         $path = preg_replace('/[\.]{2,}/', '', htmlspecialchars($this->getProperty('path')));
+        //////////////////////////////////////////////////////// - autoupload patch
+        if($this->getProperty('create_folders'))
+        {
+        	$bases = $this->source->getBases($path);
+        	$fullPath = $bases['pathAbsolute'].ltrim($path,'/');
+        	if(!file_exists($fullPath))mkdir($fullPath,$this->modx->getOption('new_folder_permissions',null,0775),true);
+        	//$fullpath = $this->source->
+        }
+        if($path[strlen($path)-1]!=='/')$path.='/';
+        /////////////////////////////////////////////////////// - autoupload patch
         $success = $this->source->uploadObjectsToContainer($path,$_FILES);
 
         if (empty($success)) {
@@ -48,7 +58,11 @@ class modBrowserFileUploadProcessor extends modProcessor {
             }
             return $this->failure($msg);
         }
-        return $this->success();
+        ///////////////////////////////////////////////////////// - autoupload patch
+        $success = $this->success();
+        $success['object'] = $this->source->uploaded_objects;
+        return $success;
+        ///////////////////////////////////////////////////////// - autoupload patch
     }
 
     /**
