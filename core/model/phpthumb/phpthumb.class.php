@@ -1684,7 +1684,7 @@ class phpthumb {
 				ob_end_clean();
 				if (!is_null($this->dpi) && $this->ImageMagickSwitchAvailable('density')) {
 					// for vector source formats only (WMF, PDF, etc)
-					if (!is_array($getimagesize) || $getimagesize[2] != IMAGETYPE_PNG)
+					if (!is_array($getimagesize) || !in_array($getimagesize[2],array(IMAGETYPE_PNG,IMAGETYPE_ICO)))
 					{
 						$commandline .= ' -flatten';
 					}
