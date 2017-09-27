@@ -723,7 +723,7 @@ abstract class modObjectCreateProcessor extends modObjectProcessor {
                 $this->primaryKeyField => 0,
                 $this->objectType => &$this->object,
                 'object' => &$this->object,
-                'processor' => &this,
+                'processor' => &$this,
             ));
             if (is_array($OnBeforeFormSave)) {
                 $preventSave = false;
@@ -750,7 +750,7 @@ abstract class modObjectCreateProcessor extends modObjectProcessor {
                 $this->primaryKeyField => $this->object->get($this->primaryKeyField),
                 $this->objectType => &$this->object,
                 'object' => &$this->object,
-                'processor' => &this,
+                'processor' => &$this,
             ));
         }
     }
@@ -892,7 +892,7 @@ abstract class modObjectUpdateProcessor extends modObjectProcessor {
                 $this->primaryKeyField => $this->object->get($this->primaryKeyField),
                 $this->objectType => &$this->object,
                 'object' => &$this->object,
-                'processor' => &this,
+                'processor' => &$this,
             ));
             if (is_array($OnBeforeFormSave)) {
                 $preventSave = false;
@@ -919,7 +919,7 @@ abstract class modObjectUpdateProcessor extends modObjectProcessor {
                 $this->primaryKeyField => $this->object->get($this->primaryKeyField),
                 $this->objectType => &$this->object,
                 'object' => &$this->object,
-                'processor' => &this,
+                'processor' => &$this,
             ));
         }
     }
