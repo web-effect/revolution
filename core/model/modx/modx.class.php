@@ -22,7 +22,7 @@ if (strstr(str_replace('.','',serialize(array_merge($_GET, $_POST, $_COOKIE))), 
 }
 
 if (!defined('MODX_CORE_PATH')) {
-    define('MODX_CORE_PATH', dirname(dirname(dirname(__FILE__))) . DIRECTORY_SEPARATOR);
+    define('MODX_CORE_PATH', dirname(dirname(__DIR__)) . DIRECTORY_SEPARATOR);
 }
 require_once (MODX_CORE_PATH . 'xpdo/xpdo.class.php');
 
@@ -280,7 +280,6 @@ class modX extends xPDO {
      * @static
      */
     public static function protect() {
-        if (isset ($_SERVER['QUERY_STRING']) && strpos(urldecode($_SERVER['QUERY_STRING']), chr(0)) !== false) die();
         if (@ ini_get('register_globals') && isset ($_REQUEST)) {
             while (list($key, $value)= each($_REQUEST)) {
                 $GLOBALS[$key] = null;
@@ -1050,7 +1049,7 @@ class modX extends xPDO {
             if (file_exists(MODX_CORE_PATH . "error/{$type}.include.php")) {
                 @include(MODX_CORE_PATH . "error/{$type}.include.php");
             }
-            header($this->getOption('error_header', $options, 'HTTP/1.1 503 Service Unavailable'));
+            header($this->getOption('error_header', $options, $_SERVER['SERVER_PROTOCOL'] . ' 503 Service Unavailable'));
             echo "<html><head><title>{$errorPageTitle}</title></head><body>{$errorMessage}</body></html>";
             @session_write_close();
         } else {
@@ -1151,7 +1150,7 @@ class modX extends xPDO {
             $options= array_merge(
                 array(
                     'error_type' => '404'
-                    ,'error_header' => $this->getOption('error_page_header', $options,'HTTP/1.1 404 Not Found')
+                    ,'error_header' => $this->getOption('error_page_header', $options,$_SERVER['SERVER_PROTOCOL'] . ' 404 Not Found')
                     ,'error_pagetitle' => $this->getOption('error_page_pagetitle', $options,'Error 404: Page not found')
                     ,'error_message' => $this->getOption('error_page_message', $options,'<h1>Page not found</h1><p>The page you requested was not found.</p>')
                 ),
@@ -1173,9 +1172,9 @@ class modX extends xPDO {
         if (!is_array($options)) $options = array();
         $options= array_merge(
             array(
-                'response_code' => $this->getOption('error_page_header', $options, 'HTTP/1.1 404 Not Found')
+                'response_code' => $this->getOption('error_page_header', $options, $_SERVER['SERVER_PROTOCOL'] . ' 404 Not Found')
                 ,'error_type' => '404'
-                ,'error_header' => $this->getOption('error_page_header', $options, 'HTTP/1.1 404 Not Found')
+                ,'error_header' => $this->getOption('error_page_header', $options, $_SERVER['SERVER_PROTOCOL'] . ' 404 Not Found')
                 ,'error_pagetitle' => $this->getOption('error_page_pagetitle', $options, 'Error 404: Page not found')
                 ,'error_message' => $this->getOption('error_page_message', $options, '<h1>Page not found</h1><p>The page you requested was not found.</p>')
             ),
@@ -1197,9 +1196,9 @@ class modX extends xPDO {
         if (!is_array($options)) $options = array();
         $options= array_merge(
             array(
-                'response_code' => $this->getOption('unauthorized_page_header' ,$options ,'HTTP/1.1 401 Unauthorized')
+                'response_code' => $this->getOption('unauthorized_page_header' ,$options ,$_SERVER['SERVER_PROTOCOL'] . ' 401 Unauthorized')
                 ,'error_type' => '401'
-                ,'error_header' => $this->getOption('unauthorized_page_header', $options,'HTTP/1.1 401 Unauthorized')
+                ,'error_header' => $this->getOption('unauthorized_page_header', $options,$_SERVER['SERVER_PROTOCOL'] . ' 401 Unauthorized')
                 ,'error_pagetitle' => $this->getOption('unauthorized_page_pagetitle',$options, 'Error 401: Unauthorized')
                 ,'error_message' => $this->getOption('unauthorized_page_message', $options,'<h1>Unauthorized</h1><p>You are not authorized to view the requested content.</p>')
             ),
@@ -1918,13 +1917,18 @@ class modX extends xPDO {
      * Remove an event from the eventMap so it will not be invoked.
      *
      * @param string $event
+     * @param integer $pluginId Plugin identifier to remove from the eventMap for the specified event.
      * @return boolean false if the event parameter is not specified or is not
      * present in the eventMap.
      */
-    public function removeEventListener($event) {
+    public function removeEventListener($event, $pluginId = 0) {
         $removed = false;
         if (!empty($event) && isset($this->eventMap[$event])) {
-            unset ($this->eventMap[$event]);
+            if (intval($pluginId)) {
+                unset ($this->eventMap[$event][$pluginId]);
+            } else {
+                unset ($this->eventMap[$event]);
+            }
             $removed = true;
         }
         return $removed;
@@ -1943,16 +1947,18 @@ class modX extends xPDO {
      *
      * @param string $event Name of the event.
      * @param integer $pluginId Plugin identifier to add to the event.
+     * @param string $propertySetName The name of property set bound to the plugin
      * @return boolean true if the event is successfully added, otherwise false.
      */
-    public function addEventListener($event, $pluginId) {
+    public function addEventListener($event, $pluginId, $propertySetName = '') {
         $added = false;
+        $pluginId = intval($pluginId);
         if ($event && $pluginId) {
             if (!isset($this->eventMap[$event]) || empty ($this->eventMap[$event])) {
                 $this->eventMap[$event]= array();
             }
-            $this->eventMap[$event][]= $pluginId;
-            $added= true;
+            $this->eventMap[$event][$pluginId]= $pluginId . (!empty($propertySetName) ? ':' . $propertySetName : '');
+            $added = true;
         }
         return $added;
     }
@@ -2146,7 +2152,7 @@ class modX extends xPDO {
      */
     public function checkSiteStatus() {
         $status = false;
-        if ($this->config['site_status'] == '1' || $this->hasPermission('view_offline')) {
+        if ($this->config['site_status'] == '1' || ($this->getSessionState() === modX::SESSION_STATE_INITIALIZED && $this->hasPermission('view_offline'))) {
             $status = true;
         }
         return $status;
