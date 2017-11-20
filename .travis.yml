@@ -1,4 +1,3 @@
-#2.6.x
 dist: trusty
 sudo: required
 language: php
