@@ -188,7 +188,7 @@ class modSearchProcessor extends modProcessor
                 'type' => $type,
                 'class' => $record->get('class_key'),
                 'type_label' => $typeLabel,
-                'icon' => $record->get('icon')?(str_replace('icon-','',$record->get('icon'))):'file'
+                'icon' => $record->get('icon')?(str_replace('icon-','',$record->get('icon'))):false
             );
         }
     }
