@@ -96,7 +96,7 @@ Ext.onReady(function() {
         }
         ,listeners: {
             beforeadd: function (tabpanel, comp) {
-                if (comp.contentEl && (Ext.get(comp.contentEl).child('.modx-tv') === null)) {
+                if (comp.contentEl && (Ext.get(comp.contentEl).child('.modx-tv:not([style*=\"display: none\"])') === null)) {
                     return false;
                 }
             }
