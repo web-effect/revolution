@@ -558,7 +558,7 @@ class modX extends xPDO {
         $cache = $this->call('modExtensionPackage','loadCache',array(&$this));
         if (!empty($cache)) {
             foreach ($cache as $package) {
-                $package['table_prefix'] = !empty($package['table_prefix']) ? $package['table_prefix'] : null;
+                $package['table_prefix'] = isset($package['table_prefix']) ? $package['table_prefix'] : null;
                 $this->addPackage($package['namespace'],$package['path'],$package['table_prefix']);
                 if (!empty($package['service_name']) && !empty($package['service_class'])) {
                     $this->getService($package['service_name'],$package['service_class'],$package['path']);
@@ -592,7 +592,7 @@ class modX extends xPDO {
 
                 foreach ($extPackage as $packageName => $package) {
                     if (!empty($package) && !empty($package['path'])) {
-                        $package['tablePrefix'] = !empty($package['tablePrefix']) ? $package['tablePrefix'] : null;
+                        $package['tablePrefix'] = isset($package['tablePrefix']) ? $package['tablePrefix'] : null;
                         $package['path'] = str_replace(array(
                             '[[++core_path]]',
                             '[[++base_path]]',
@@ -624,18 +624,33 @@ class modX extends xPDO {
      * @param boolean $stopOnNotice Indicates if processing should stop when
      * encountering PHP errors of type E_NOTICE.
      * @return boolean|int The previous value.
+     *
+     * @info PHP errors are handle by modErrorHandler with at most LOG_LEVEL_INFO
+     *       When called by modX $debug is a string (ie $this->getOption('debug'))
+     *
+     *          (bool)true , (string)true , (string)-1 -> LOG_LEVEL_DEBUG (MODX), E_ALL | E_STRICT (PHP)
+     *          (bool)false, (string)false, (string) 0 -> LOG_LEVEL_ERROR (MODX), 0                (PHP)
+     *          (int)nnn                               -> LOG_LEVEL_INFO  (MODX), nnn              (PHP)
+     *          (string)E_XXX                          -> LOG_LEVEL_INFO  (MODX), E_XXX            (PHP)
      */
     public function setDebug($debug= true) {
         $oldValue= $this->getDebug();
-        if ($debug === true) {
+        if (($debug === true) || ('true' === $debug) || ('-1' === $debug)) {
             error_reporting(-1);
             parent :: setDebug(true);
-        } elseif ($debug === false) {
-            error_reporting(0);
-            parent :: setDebug(false);
-        } else {
-            error_reporting(intval($debug));
-            parent :: setDebug(intval($debug));
+        }
+        else {
+            if (($debug === false) || ('false' === $debug) || ('0' === $debug)) {
+                error_reporting(0);
+                parent :: setDebug(false);
+            }
+            else {
+                $debug = (is_int($debug) ? $debug : defined($debug) ? intval(constant($debug)) : 0);
+                if ($debug) {
+                    error_reporting($debug);
+                    parent :: setLogLevel(xPDO::LOG_LEVEL_INFO);
+                }
+            }
         }
         return $oldValue;
     }

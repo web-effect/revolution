@@ -201,6 +201,7 @@ class modSearchProcessor extends modProcessor
         $c->where(array(
             'name:LIKE' => '%' . $this->query . '%',
             'OR:description:LIKE' => '%' . $this->query .'%',
+            'OR:id:=' => $this->query,
         ));
 
         $c->limit($this->maxResults);
@@ -226,6 +227,7 @@ class modSearchProcessor extends modProcessor
         $c->where(array(
             'name:LIKE' => '%' . $this->query . '%',
             'OR:description:LIKE' => '%' . $this->query .'%',
+            'OR:id:=' => $this->query,
         ));
 
         $c->limit($this->maxResults);
@@ -251,6 +253,7 @@ class modSearchProcessor extends modProcessor
         $c->where(array(
             'templatename:LIKE' => '%' . $this->query . '%',
             'OR:description:LIKE' => '%' . $this->query .'%',
+            'OR:id:=' => $this->query,
         ));
 
         $c->limit($this->maxResults);
@@ -276,6 +279,7 @@ class modSearchProcessor extends modProcessor
         $c->where(array(
             'name:LIKE' => '%' . $this->query . '%',
             'OR:description:LIKE' => '%' . $this->query .'%',
+            'OR:id:=' => $this->query,
         ));
 
         $c->limit($this->maxResults);
@@ -301,6 +305,7 @@ class modSearchProcessor extends modProcessor
         $c->where(array(
             'name:LIKE' => '%' . $this->query . '%',
             'OR:caption:LIKE' => '%' . $this->query .'%',
+            'OR:id:=' => $this->query,
         ));
 
         $c->limit($this->maxResults);
@@ -332,6 +337,7 @@ class modSearchProcessor extends modProcessor
             'username:LIKE' => '%' . $this->query . '%',
             'OR:Profile.fullname:LIKE' => '%' . $this->query .'%',
             'OR:Profile.email:LIKE' => '%' . $this->query .'%',
+            'OR:id:=' => $this->query,
         ));
 
         $c->limit($this->maxResults);

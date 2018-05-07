@@ -114,7 +114,7 @@ class modFileMediaSource extends modMediaSource implements modMediaSourceInterfa
             if (empty($allowedExtensions)) {
                 $allowedExtensions = array();
             } else {
-                $allowedExtensions = explode(',', $allowedExtensions);
+                $allowedExtensions = array_map("trim",explode(',', $allowedExtensions));
             }
         }
 
@@ -270,6 +270,7 @@ class modFileMediaSource extends modMediaSource implements modMediaSourceInterfa
                                     'q' => $thumbnailQuality,
                                     'wctx' => $this->ctx->get('key'),
                                     'source' => $this->get('id'),
+                                    't' => $file->getMTime(),
                                 ));
                                 $image = $this->ctx->getOption('connectors_url', MODX_CONNECTORS_URL).'system/phpthumb.php?'.urldecode($imageQuery);
                             } else {
@@ -555,12 +556,12 @@ class modFileMediaSource extends modMediaSource implements modMediaSourceInterfa
     public function checkFiletype($filename) {
         if ($this->getOption('allowedFileTypes')) {
             $allowedFileTypes = $this->getOption('allowedFileTypes');
-            $allowedFileTypes = (!is_array($allowedFileTypes)) ? explode(',', $allowedFileTypes) : $allowedFileTypes;
+            $allowedFileTypes = (!is_array($allowedFileTypes)) ? array_map("trim",explode(',', $allowedFileTypes)) : $allowedFileTypes;
         } else {
-            $allowedFiles = $this->xpdo->getOption('upload_files') ? explode(',', $this->xpdo->getOption('upload_files')) : array();
-            $allowedImages = $this->xpdo->getOption('upload_images') ? explode(',', $this->xpdo->getOption('upload_files')) : array();
-            $allowedMedia = $this->xpdo->getOption('upload_media') ? explode(',', $this->xpdo->getOption('upload_media')) : array();
-            $allowedFlash = $this->xpdo->getOption('upload_flash') ? explode(',', $this->xpdo->getOption('upload_flash')) : array();
+            $allowedFiles = $this->xpdo->getOption('upload_files') ? array_map("trim",explode(',', $this->xpdo->getOption('upload_files'))) : array();
+            $allowedImages = $this->xpdo->getOption('upload_images') ? array_map("trim",explode(',', $this->xpdo->getOption('upload_files'))) : array();
+            $allowedMedia = $this->xpdo->getOption('upload_media') ? array_map("trim",explode(',', $this->xpdo->getOption('upload_media'))) : array();
+            $allowedFlash = $this->xpdo->getOption('upload_flash') ? array_map("trim",explode(',', $this->xpdo->getOption('upload_flash'))): array();
             $allowedFileTypes = array_unique(array_merge($allowedFiles, $allowedImages, $allowedMedia, $allowedFlash));
             $this->setOption('allowedFileTypes', $allowedFileTypes);
         }
@@ -840,7 +841,7 @@ class modFileMediaSource extends modMediaSource implements modMediaSourceInterfa
                 'directory' => $container,
                 'source' => &$this,
             ));
-            
+
             if ($file['error'] != 0) continue;
             if (empty($file['name'])) continue;
 
@@ -1119,6 +1120,7 @@ class modFileMediaSource extends modMediaSource implements modMediaSourceInterfa
                                 'q' => $thumbnailQuality,
                                 'wctx' => $this->ctx->get('key'),
                                 'source' => $this->get('id'),
+                                't' => $file->getMTime(),
                             ));
                             $image = $this->ctx->getOption('connectors_url', MODX_CONNECTORS_URL).'system/phpthumb.php?'.urldecode($imageQuery);
                             $thumbQuery = http_build_query(array(
@@ -1130,6 +1132,7 @@ class modFileMediaSource extends modMediaSource implements modMediaSourceInterfa
                                 'q' => $thumbnailQuality,
                                 'wctx' => $this->ctx->get('key'),
                                 'source' => $this->get('id'),
+                                't' => $file->getMTime(),
                             ));
                             $thumb = $this->ctx->getOption('connectors_url', MODX_CONNECTORS_URL).'system/phpthumb.php?'.urldecode($thumbQuery);
                         } else {
