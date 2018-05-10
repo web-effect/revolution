@@ -1,0 +1,13 @@
+Основыные:
+fancybox - Всплывающие окна и просмотр изображений - http://fancyapps.com/fancybox/3/docs/
+OwlCarusel - адаптивный слайдер - https://owlcarousel2.github.io/OwlCarousel2/
+fontAwesome - Шрифт для иконок
+
+Добавленные:
+
+Дополнительные:
+EasyZoom - zoom изображений - http://i-like-robots.github.io/EasyZoom/ https://github.com/i-like-robots/EasyZoom
+js-cookie - управление cookie - https://github.com/js-cookie/js-cookie
+jquery-ui - Элементы интерфейса - http://jqueryui.com
+jquery.actual - Актуальные разсеры элементов - https://github.com/dreamerslab/jquery.actual
+jquery.ui.touch-punch - Включает touch события для jquery-ui - https://github.com/furf/jquery-ui-touch-punch

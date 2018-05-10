@@ -1,0 +1,32 @@
+/* tinymce styles */
+#tinymce, .tinymce{color:#545a5d;}
+.tinymce .justifyright, #tinymce .justifyright{text-align: right;}
+.tinymce img.justifyright, #tinymce img.justifyright {float: right;margin: 0 0 10px 25px;}
+.tinymce .justifyleft, #tinymce .justifyleft {text-align: left;}
+.tinymce img.justifyleft, #tinymce img.justifyleft {float: left;margin: 0 25px 10px 0;}
+.tinymce .justifycenter, #tinymce .justifycenter {text-align: center;}
+.tinymce .justifyfull, #tinymce .justifyfull {text-align: justify;}
+.tinymce h1, #tinymce h1 {font-size: 26px;margin: 0 0 20px 0;text-align: left;}
+.tinymce h2, #tinymce h2 {font-size: 22px;margin: 0 0 15px 0;text-align: left;}
+.tinymce h3, #tinymce h3 {font-size: 18px;margin: 0 0 15px 0;text-align: left;}
+.tinymce p, #tinymce p {margin: 0 0 15px 0;text-align: justify;}
+.tinymce ul li, #tinymce ul li {list-style-type: disc;margin: 0 0 7px 35px;text-align: justify;}
+.tinymce ol li, #tinymce ol li {list-style-type: decimal;margin: 0 0 7px 35px;text-align: justify;}
+.tinymce ul li:last-child, #tinymce ul li:last-child {margin: 0 0 15px 35px;}
+.tinymce ol li:last-child, #tinymce ol li:last-child {margin: 0 0 15px 35px;}
+.tinymce a, #tinymce a {color: #999;text-decoration: underline}
+.tinymce a:hover, #tinymce a:hover {text-decoration: none}
+.tinymce img, #tinymce img {vertical-align: top;}
+.tinymce img[style*="float: left"], .tinymce img[style*="float:left"], .tinymce img[style*="float: left"]
+,#tinymce img[style*="float:left"], #tinymce img[style*="float:left"], #tinymce img[style*="float: left"]
+{margin: 0 25px 10px 0;}
+.tinymce img[style*="float: right"], .tinymce img[style*="float:right"]
+,#tinymce img[style*="float: right"], #tinymce img[style*="float:right"]
+{margin: 0 0 10px 25px;}
+.tinymce table, #tinymce table {border-collapse: collapse;margin: 0 0 15px 0;}
+.tinymce table[align=center], #tinymce table[align=center] {margin: 0 auto 15px;}
+.tinymce table[align=left], #tinymce table[align=left] {margin: 0 0 15px 0;}
+.tinymce table[align=right], #tinymce table[align=right] {margin: 0 0 15px auto;}
+.tinymce table td, #tinymce table td {padding: 6px 10px; text-align: left; vertical-align: top; border:1px solid #000;}
+.tinymce table[border="0"] td, #tinymce table[border="0"] td {border: none !important;}
+.tinymce table td p, #tinymce table td p {margin: 0;}

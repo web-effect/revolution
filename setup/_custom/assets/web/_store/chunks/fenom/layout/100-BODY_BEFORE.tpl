@@ -1,0 +1,1 @@
+<$'<script>Extra.forms.yaID="Тут id yandex метрики";</script>'|jsToBottom$>
