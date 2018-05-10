@@ -29,13 +29,21 @@
 </head>
 
 <body id="login">
+<div id="modx-login-language-select-div">
+    <label id="modx-login-language-select-label">{$language_str}:
+        <select name="cultureKey" id="modx-login-language-select" aria-labeled-by="modx-login-language-select-label">
+{$languages|indent:12}
+        </select>
+    </label>
+</div>
 {$onManagerLoginFormPrerender}
 <br />
 
 <div id="container">
     <div id="modx-login-logo">
-        <!--[if gte IE 9]><!--><img alt="MODX CMS/CMF" src="{$_config.manager_url}templates/default/images/modx-logo-color.svg" data-fallback="{$_config.manager_url}templates/default/images/modx-logo-color.png" onerror="this.src=this.getAttribute('data-fallback');this.onerror=null;" /><!--<![endif]-->
-        <!--[if lt IE 9]><img alt="MODX CMS/CMF" src="{$_config.manager_url}templates/default/images/modx-logo-color.png" /><![endif]-->
+        <a href='/' target='_blank'>
+	        <img src="{$_config.manager_favicon_url}">
+        </a>
     </div>
 
     <div id="modx-panel-login-div" class="x-panel modx-form x-form-label-right">
@@ -56,20 +64,29 @@
                 </div>
             </div>
 
-            <div class="x-form-item login-form-item login-form-item-first">
-                <label for="modx-login-username">{$_lang.login_username}</label>
-                <div class="x-form-element login-form-element">
-                    <input type="text" id="modx-login-username" name="username" autocomplete="on" autofocus value="{$_post.username|default}" class="x-form-text x-form-field" aria-required="true" required />
-                </div>
-            </div>
-
-            <div class="x-form-item login-form-item">
-                <label for="modx-login-password">{$_lang.login_password}</label>
-                <div class="x-form-element login-form-element">
-                    <input type="password" id="modx-login-password" name="password" autocomplete="on" class="x-form-text x-form-field" aria-required="true" required />
-                </div>
-            </div>
-
+            <table>
+				<tr>
+					<td>
+                        <div class="x-form-item login-form-item login-form-item-first">
+                            <label for="modx-login-username">{$_lang.login_username}</label>
+                            <div class="x-form-element login-form-element">
+                                <input type="text" id="modx-login-username" name="username" autocomplete="on" autofocus value="{$_post.username|default}" class="x-form-text x-form-field" aria-required="true" required />
+                            </div>
+                        </div>
+                    </td>
+					<td>
+                        <div class="x-form-item login-form-item">
+                            <label for="modx-login-password">{$_lang.login_password}</label>
+                            <div class="x-form-element login-form-element">
+                                <input type="password" id="modx-login-password" name="password" autocomplete="on" class="x-form-text x-form-field" aria-required="true" required />
+                            </div>
+                        </div>
+                    </td>
+					<td>
+					    <button class="x-btn x-btn-small x-btn-icon-small-left primary-button x-btn-noicon login-form-btn" name="login" type="submit" value="1" id="modx-login-btn">{$_lang.login_button}</button>
+					</td>
+				</tr>
+			</table>
             <div class="login-cb-row">
                 <div class="login-cb-col one">
                     <div class="modx-login-fl-link">
@@ -83,7 +100,6 @@
                         <input type="checkbox" id="modx-login-rememberme" name="rememberme" autocomplete="on" {if $_post.rememberme|default}checked="checked"{/if} class="x-form-checkbox x-form-field" value="1" />
                         <label for="modx-login-rememberme" class="x-form-cb-label">{$_lang.login_remember}</label>
                     </div>
-                    <button class="x-btn x-btn-small x-btn-icon-small-left primary-button x-btn-noicon login-form-btn" name="login" type="submit" value="1" id="modx-login-btn">{$_lang.login_button}</button>
                 </div>
             </div>
 
@@ -108,16 +124,8 @@
 {/if}
         <br class="clear" />
     </div>
-
-    <p class="loginLicense">{$_lang.login_copyright|replace:'[[+current_year]]':{'Y'|date}}</p>
 </div>
-
-<div id="modx-login-language-select-div">
-    <label id="modx-login-language-select-label">{$language_str}:
-        <select name="cultureKey" id="modx-login-language-select" aria-labeled-by="modx-login-language-select-label">
-{$languages|indent:12}
-        </select>
-    </label>
-</div>
+<iframe name='support' align='center' height='650px' width='900px' src='{$_config.support_url}' style='margin:20px auto 20px auto;border:none;display:block;position:relative;z-index:10;'></iframe>
+<p class="loginLicense">{$_lang.login_copyright|replace:'[[+current_year]]':{'Y'|date}}</p>
 </body>
 </html>

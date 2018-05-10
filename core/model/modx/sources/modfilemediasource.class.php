@@ -14,6 +14,7 @@ require_once MODX_CORE_PATH . 'model/modx/sources/modmediasource.class.php';
 class modFileMediaSource extends modMediaSource implements modMediaSourceInterface {
     /** @var modFileHandler */
     public $fileHandler;
+    public $uploaded_objects=array();// - autoupload patch
 
     /**
      * {@inheritDoc}
@@ -830,6 +831,7 @@ class modFileMediaSource extends modMediaSource implements modMediaSourceInterfa
         }
 
         /* loop through each file and upload */
+        $this->uploaded_objects=array();// - autoupload patch
         foreach ($objects as $file) {
             /* invoke event */
             $this->xpdo->invokeEvent('OnFileManagerBeforeUpload', array(
@@ -863,7 +865,9 @@ class modFileMediaSource extends modMediaSource implements modMediaSourceInterfa
                 $this->addError('path',$this->xpdo->lexicon('file_err_upload'));
                 continue;
             }
-
+            
+            $this->uploaded_objects[]=str_replace($directory->getPath(),'',$newPath);// - autoupload patch
+            
             if ($mode) {
                 @chmod($newPath, $mode);
             }

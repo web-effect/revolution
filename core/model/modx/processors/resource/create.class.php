@@ -510,6 +510,7 @@ class modResourceCreateProcessor extends modObjectCreateProcessor {
             'mode' => modSystemEvent::MODE_NEW,
             'id' => 0,
             'resource' => &$this->object,
+            'processor' => &$this,
             'reloadOnly' => $this->getProperty('reloadOnly',false),
         ));
         if (is_array($OnBeforeDocFormSave)) {
@@ -590,6 +591,7 @@ class modResourceCreateProcessor extends modObjectCreateProcessor {
             'mode' => modSystemEvent::MODE_NEW,
             'id' => $this->object->get('id'),
             'resource' => &$this->object,
+            'processor' => &$this,
             'reloadOnly' => $this->getProperty('reloadOnly',false),
         ));
     }
